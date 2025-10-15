@@ -1,0 +1,32 @@
+{
+  "site": {
+    "title": "GameCode Lab",
+    "description": "Gamified HTML5 Programming Education Platform"
+  },
+  "nav": {
+    "home": "Home",
+    "learn": "Learn",
+    "community": "Community",
+    "leaderboard": "Leaderboard",
+    "rewards": "Rewards",
+    "profile": "Profile",
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "trial": {
+    "banner": "You're in a {{days}} day free trial. {{daysLeft}} days remaining.",
+    "expired": "Your trial has expired. Sign up to continue learning!",
+    "register": "Create Account"
+  }
+}
+

@@ -1,78 +1,168 @@
 @import 'tailwindcss';
 
-@theme {
-    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --color-primary: #f67280;
-    --color-primary-content: #101828;
-    --color-complementary: #355c7d;
-    --background-image-noise: linear-gradient(
-            to bottom,
-            color-mix(in oklab, var(--color-gray-950) 0%, transparent),
-            color-mix(in oklab, var(--color-gray-950) 100%, transparent)
-        ),
-        url('/images/noise.png');
+/* Custom theme variables */
+:root {
+  /* Brand colors */
+  --color-primary: 59 130 246; /* blue-500 */
+  --color-secondary: 16 185 129; /* emerald-500 */
+  --color-accent: 249 115 22; /* orange-500 */
+  
+  /* Gamification colors */
+  --color-xp: 234 179 8; /* yellow-500 */
+  --color-coin: 251 191 36; /* amber-400 */
+  --color-level: 139 92 246; /* violet-500 */
+  
+  /* Status colors */
+  --color-success: 34 197 94; /* green-500 */
+  --color-error: 239 68 68; /* red-500 */
+  --color-warning: 251 146 60; /* orange-400 */
+  --color-info: 59 130 246; /* blue-500 */
 }
 
-@layer base {
-    h1 {
-        @apply text-4xl font-bold tracking-tight sm:text-5xl;
-    }
-
-    h2 {
-        @apply text-2xl font-bold sm:text-3xl;
-    }
-
-    a:not(.btn) {
-        @apply underline transition hover:opacity-80;
-    }
-
-    pre {
-        @apply p-6 overflow-x-auto rounded-lg;
-    }
-
-    :not(pre) > code {
-        @apply px-1 py-0.5 font-mono rounded bg-gray-900 text-primary;
-        font-size: 0.9em;
-    }
+/* Base styles */
+* {
+  box-sizing: border-box;
 }
 
-@layer components {
-    .markdown {
-        > * {
-            @apply my-6;
-        }
+html {
+  font-family: 'Inter Variable', system-ui, -apple-system, sans-serif;
+  scroll-behavior: smooth;
+}
 
-        :where(h1, h2) {
-            @apply mt-12 mb-6;
-        }
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
 
-        > :first-child {
-            @apply mt-0;
-        }
+/* Code editor styles */
+.monaco-editor {
+  border-radius: 0.5rem;
+}
 
-        > :last-child {
-            @apply mb-0;
-        }
-    }
+/* Animations for gamification */
+@keyframes levelUp {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    opacity: 1;
+  }
+}
 
-    .btn {
-        @apply inline-flex items-center justify-center gap-2 bg-primary text-primary-content cursor-pointer text-center font-semibold no-underline transition-colors;
-        padding: var(--btn-py, 0.875rem) var(--btn-px, 1.25rem);
-        font-size: var(--btn-font-size, 0.875rem);
-        border-radius: var(--btn-border-radius, 0.25rem);
+@keyframes xpGain {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+}
 
-        &:hover {
-            @apply bg-primary/85;
-        }
+@keyframes achievementUnlock {
+  0% {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) translateY(-10px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
 
-        &:disabled {
-            @apply text-gray-400 bg-gray-700;
-        }
-    }
+.level-up-animation {
+  animation: levelUp 0.6s ease-out;
+}
 
-    .btn-lg {
-        --btn-font-size: 1.125rem;
-        --btn-px: 1.5rem;
-        --btn-py: 1.125rem;
-    }
+.xp-gain-animation {
+  animation: xpGain 1s ease-out forwards;
+}
+
+.achievement-unlock-animation {
+  animation: achievementUnlock 0.5s ease-out;
+}
+
+/* Sandbox preview styles */
+.sandbox-preview {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: white;
+}
+
+/* Loading spinner */
+.spinner {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-left-color: rgb(var(--color-primary));
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Utility classes */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.card {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: rgb(var(--color-primary));
+  color: white;
+}
+
+.btn-primary:hover {
+  background: rgb(37 99 235); /* blue-600 */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.btn-secondary {
+  background: rgb(var(--color-secondary));
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: rgb(5 150 105); /* emerald-600 */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }

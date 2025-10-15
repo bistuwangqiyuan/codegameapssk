@@ -1,21 +1,212 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ContextAlert from '../components/ContextAlert.astro';
-import Markdown from '../components/Markdown.astro';
-
-const explainer = `
-An Astro website can go way beyond static pages - on the right platform.
-
-Netlify supports not only [Streaming SSR](https://docs.astro.build/en/guides/server-side-rendering/#html-streaming) and fast [Edge Middleware](https://docs.astro.build/en/guides/middleware/), but also [on-demand revalidation](https://www.netlify.com/blog/cache-tags-and-purge-api-on-netlify/) and [stale-while-revalidate](https://www.netlify.com/blog/swr-and-fine-grained-cache-control/). 
-Any page or data can be rebuilt only when needed, without site visitors ever getting a performance hit.
-`;
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/astro/Header.astro';
+import Footer from '@/components/astro/Footer.astro';
 ---
 
-<Layout title="Welcome to Astro.">
-    <ContextAlert class="mb-8" />
-    <h1 class="mb-10">Netlify Platform Starter for Astro</h1>
-    <Markdown content={explainer} class="mb-10 text-lg" />
-    <p>
-        <a href="https://docs.netlify.com/frameworks/astro/" class="btn btn-lg sm:min-w-64">Read the Docs</a>
-    </p>
-</Layout>
+<BaseLayout title="GameCode Lab - Learn HTML5, CSS & JavaScript">
+    <Header />
+
+    <main class="flex-1">
+        <!-- Hero Section -->
+        <section class="relative bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 text-white py-20">
+            <div class="absolute inset-0 bg-black opacity-10"></div>
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">
+                        Learn Web Development<br />
+                        <span class="text-yellow-300">Through Gaming</span>
+                    </h1>
+
+                    <p class="text-xl md:text-2xl mb-8 text-blue-50">
+                        Master HTML5, CSS, and JavaScript with AI-powered tutoring,<br />
+                        gamified challenges, and instant feedback
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <a
+                            href="/api/auth/guest"
+                            class="inline-flex items-center px-8 py-4 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold text-lg rounded-full transition-all transform hover:scale-105 shadow-xl"
+                        >
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            Start Learning Now
+                        </a>
+
+                        <a
+                            href="#features"
+                            class="inline-flex items-center px-8 py-4 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-semibold text-lg rounded-full transition-all border-2 border-white/50"
+                        >
+                            Learn More
+                        </a>
+                    </div>
+
+                    <p class="mt-6 text-blue-100 text-sm">
+                        ✨ <strong>No registration required</strong> — Start learning immediately with a 30-day free trial
+                    </p>
+                </div>
+            </div>
+
+            <!-- Animated background elements -->
+            <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"></div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-16 text-gray-900">Why GameCode Lab?</h2>
+
+                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <!-- Feature 1: AI Tutor -->
+                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all">
+                        <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                                ></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-gray-900">AI-Powered Tutor</h3>
+                        <p class="text-gray-600">
+                            Meet <strong class="text-purple-600">CodeMentor DS</strong> — your personal AI assistant that provides instant feedback, hints, and explanations
+                            as you code.
+                        </p>
+                    </div>
+
+                    <!-- Feature 2: Gamification -->
+                    <div class="bg-gradient-to-br from-yellow-50 to-orange-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all">
+                        <div class="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-gray-900">Level Up & Earn Rewards</h3>
+                        <p class="text-gray-600">
+                            Earn <strong class="text-orange-600">XP</strong>, unlock achievements, climb leaderboards, and collect coins to customize your
+                            learning experience.
+                        </p>
+                    </div>
+
+                    <!-- Feature 3: Live Sandbox -->
+                    <div class="bg-gradient-to-br from-green-50 to-teal-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all">
+                        <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-gray-900">Interactive Code Sandbox</h3>
+                        <p class="text-gray-600">
+                            Write code in a three-panel editor with <strong class="text-teal-600">live preview</strong> — see your changes instantly as you build
+                            real web projects.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Path Preview -->
+        <section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-4 text-gray-900">Your Learning Journey</h2>
+                <p class="text-center text-gray-600 mb-16 text-lg">Progress through 5 levels from beginner to web developer</p>
+
+                <div class="max-w-4xl mx-auto space-y-6">
+                    <!-- Level 1 -->
+                    <div class="flex items-center gap-6 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
+                        <div class="flex-shrink-0 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-3xl">🌱</div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900">Level 1: HTML5 Basics</h3>
+                            <p class="text-gray-600">Learn tags, structure, and semantic HTML</p>
+                        </div>
+                        <div class="text-green-600 font-semibold">50 XP</div>
+                    </div>
+
+                    <!-- Level 2 -->
+                    <div class="flex items-center gap-6 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
+                        <div class="flex-shrink-0 w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-3xl">🎨</div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900">Level 2: CSS Styling</h3>
+                            <p class="text-gray-600">Master layouts, colors, fonts, and animations</p>
+                        </div>
+                        <div class="text-blue-600 font-semibold">100 XP</div>
+                    </div>
+
+                    <!-- Level 3 -->
+                    <div class="flex items-center gap-6 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
+                        <div class="flex-shrink-0 w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center text-3xl">⚡</div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900">Level 3: JavaScript Basics</h3>
+                            <p class="text-gray-600">Variables, functions, and events</p>
+                        </div>
+                        <div class="text-purple-600 font-semibold">150 XP</div>
+                    </div>
+
+                    <!-- Level 4 -->
+                    <div class="flex items-center gap-6 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
+                        <div class="flex-shrink-0 w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center text-3xl">🔥</div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900">Level 4: DOM Manipulation</h3>
+                            <p class="text-gray-600">Make your pages interactive</p>
+                        </div>
+                        <div class="text-orange-600 font-semibold">200 XP</div>
+                    </div>
+
+                    <!-- Level 5 -->
+                    <div class="flex items-center gap-6 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
+                        <div class="flex-shrink-0 w-16 h-16 bg-red-500 rounded-full flex items-center justify-center text-3xl">🌟</div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900">Level 5: Build Real Projects</h3>
+                            <p class="text-gray-600">Create complete web applications</p>
+                        </div>
+                        <div class="text-red-600 font-semibold">300 XP</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Ready to Start Your Coding Journey?</h2>
+                <p class="text-xl mb-8 text-blue-100">Join thousands of learners mastering web development through gamified learning</p>
+                <a
+                    href="/api/auth/guest"
+                    class="inline-flex items-center px-10 py-5 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold text-xl rounded-full transition-all transform hover:scale-105 shadow-2xl"
+                >
+                    <svg class="w-7 h-7 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    Get Started for Free
+                </a>
+                <p class="mt-4 text-blue-100 text-sm">No credit card required • 30-day free trial • Cancel anytime</p>
+            </div>
+        </section>
+    </main>
+
+    <Footer />
+</BaseLayout>
+
+<style>
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in {
+        animation: fade-in 0.8s ease-out;
+    }
+</style>

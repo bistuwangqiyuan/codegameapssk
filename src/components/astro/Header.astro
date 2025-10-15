@@ -1,0 +1,67 @@
+---
+// Header component with user level display and navigation
+---
+
+<header class="bg-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <span class="text-white text-2xl font-bold">{}</span>
+                </div>
+                <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> GameCode Lab </span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="/learn" class="text-gray-700 hover:text-blue-600 font-medium transition-colors"> Learn </a>
+                <a href="/community" class="text-gray-700 hover:text-blue-600 font-medium transition-colors"> Community </a>
+                <a href="/leaderboard" class="text-gray-700 hover:text-blue-600 font-medium transition-colors"> Leaderboard </a>
+                <a href="/rewards" class="text-gray-700 hover:text-blue-600 font-medium transition-colors"> Rewards </a>
+            </div>
+
+            <!-- User Section -->
+            <div class="flex items-center gap-4" id="user-section">
+                <!-- Will be hydrated with user data via React/Zustand -->
+                <div id="user-level-indicator" class="hidden">
+                    <!-- Level badge will be inserted here -->
+                </div>
+
+                <a href="/api/auth/guest" id="cta-button" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full transition-all">
+                    Start Learning
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors" aria-label="Toggle menu">
+                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu (hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-200 pt-4">
+            <div class="flex flex-col gap-4">
+                <a href="/learn" class="text-gray-700 hover:text-blue-600 font-medium transition-colors"> Learn </a>
+                <a href="/community" class="text-gray-700 hover:text-blue-600 font-medium transition-colors"> Community </a>
+                <a href="/leaderboard" class="text-gray-700 hover:text-blue-600 font-medium transition-colors"> Leaderboard </a>
+                <a href="/rewards" class="text-gray-700 hover:text-blue-600 font-medium transition-colors"> Rewards </a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<script>
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuButton?.addEventListener('click', () => {
+        mobileMenu?.classList.toggle('hidden');
+    });
+
+    // TODO: Integrate with authStore to display user level and XP
+    // This will be connected in a later task when authStore is fully integrated
+</script>

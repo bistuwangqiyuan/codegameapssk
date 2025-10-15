@@ -1,0 +1,126 @@
+---
+/**
+ * Code Sandbox Page
+ * Full-screen three-panel code editor with live preview
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import EditorPanels from '@/components/react/CodeSandbox/EditorPanels';
+import SandboxPreview from '@/components/react/CodeSandbox/SandboxPreview';
+import { supabase } from '@/lib/supabase/client';
+
+const { searchParams } = Astro.url;
+const projectId = searchParams.get('project');
+const challengeId = searchParams.get('challenge');
+
+let initialProject = null;
+if (projectId) {
+    const { data } = await supabase.from('projects').select('*').eq('id', projectId).single();
+    initialProject = data;
+}
+
+let challenge = null;
+if (challengeId) {
+    const { data } = await supabase.from('challenges').select('*, lessons(title)').eq('id', challengeId).single();
+    challenge = data;
+}
+---
+
+<BaseLayout title="Code Sandbox | GameCode Lab">
+    <div class="h-screen flex flex-col bg-gray-900">
+        <!-- Top Bar -->
+        <div class="flex items-center justify-between bg-gray-800 px-6 py-3 border-b border-gray-700">
+            <div class="flex items-center gap-4">
+                <a href="/" class="flex items-center gap-2 text-white hover:text-purple-400 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    <span class="font-semibold">Back</span>
+                </a>
+
+                <div class="h-8 w-px bg-gray-600"></div>
+
+                <h1 class="text-xl font-bold text-white">
+                    {challenge ? `Challenge: ${challenge.title}` : initialProject ? initialProject.title : 'Code Sandbox'}
+                </h1>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <!-- Toolbar buttons will be added here -->
+                <button class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors"> Save Project </button>
+            </div>
+        </div>
+
+        <!-- Challenge Info (if present) -->
+        {
+            challenge && (
+                <div class="bg-blue-900 text-blue-100 px-6 py-4 border-b border-blue-800">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                            />
+                        </svg>
+                        <div class="flex-1">
+                            <p class="font-semibold">{challenge.problem_statement}</p>
+                            <p class="text-sm text-blue-200 mt-1">From: {challenge.lessons?.title}</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span
+                                class={`px-3 py-1 rounded-full text-sm font-semibold ${
+                                    challenge.difficulty === 'easy'
+                                        ? 'bg-green-500 text-white'
+                                        : challenge.difficulty === 'medium'
+                                          ? 'bg-yellow-500 text-white'
+                                          : 'bg-red-500 text-white'
+                                }`}
+                            >
+                                {challenge.difficulty}
+                            </span>
+                            <span class="px-3 py-1 bg-purple-500 text-white rounded-full text-sm font-semibold">{challenge.xp_reward} XP</span>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+
+        <!-- Editor and Preview Split -->
+        <div class="flex-1 flex overflow-hidden">
+            <!-- Left: Code Editor (60%) -->
+            <div class="w-3/5 border-r border-gray-700">
+                <EditorPanels client:load />
+            </div>
+
+            <!-- Right: Preview (40%) -->
+            <div class="w-2/5">
+                <SandboxPreview client:load />
+            </div>
+        </div>
+    </div>
+</BaseLayout>
+
+<script>
+    // Initialize project if loaded
+    const initialProject = document.querySelector('[data-initial-project]')?.textContent;
+    if (initialProject) {
+        try {
+            const project = JSON.parse(initialProject);
+            // Load into editor store
+            if (window.useEditorStore) {
+                window.useEditorStore.getState().loadProject({
+                    id: project.id,
+                    title: project.title,
+                    html: project.html_code,
+                    css: project.css_code,
+                    js: project.js_code
+                });
+            }
+        } catch (err) {
+            console.error('Failed to load project:', err);
+        }
+    }
+</script>
+
+{initialProject && <script type="application/json" data-initial-project set:html={JSON.stringify(initialProject)} />}

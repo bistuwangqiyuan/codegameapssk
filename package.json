@@ -1,34 +1,45 @@
 {
-  "name": "astro-netlify-platform-starter",
+  "name": "gamecode-lab",
   "type": "module",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "游戏化 HTML5 编程教育平台 - Gamified HTML5 Programming Education Platform",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "vitest",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@astrojs/netlify": "^6.2.3",
     "@astrojs/react": "^4.2.1",
     "@fontsource-variable/inter": "^5.2.5",
-    "@netlify/blobs": "^8.2.0",
-    "@netlify/functions": "^2.8.2",
+    "@monaco-editor/react": "^4.6.0",
+    "@supabase/supabase-js": "^2.39.0",
     "@tailwindcss/vite": "^4.0.14",
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
     "astro": "^5.5.3",
-    "blobshape": "^1.0.0",
-    "marked": "^13.0.0",
-    "marked-shiki": "^1.2.0",
+    "astro-i18next": "^1.0.0-beta.21",
+    "framer-motion": "^11.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwindcss": "^4.0.14",
-    "unique-names-generator": "^4.7.1"
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
-    "@types/blobshape": "^1.0.3",
-    "@types/node": "^20.12.7"
+    "@playwright/test": "^1.41.0",
+    "@types/node": "^20.12.7",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-astro": "^0.31.4",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.2",
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.13.0",
+    "vitest": "^1.2.2"
   }
 }
