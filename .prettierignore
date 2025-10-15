@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+.astro/
+coverage/
+package-lock.json
+pnpm-lock.yaml
+.netlify/
+public/
+

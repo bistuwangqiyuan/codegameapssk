@@ -1,0 +1,60 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '@/components/Header.astro';
+
+interface Props {
+    title?: string;
+    userType?: 'teacher' | 'admin';
+}
+
+const { title, userType } = Astro.props;
+---
+
+<BaseLayout title={title}>
+    <div class="min-h-screen flex flex-col bg-gray-50">
+        <Header />
+
+        <div class="flex-1 flex">
+            <!-- Sidebar -->
+            <aside class="w-64 bg-white shadow-lg">
+                <nav class="p-4 space-y-2">
+                    {
+                        userType === 'teacher' ? (
+                            <>
+                                <a href="/teacher/courses" class="block px-4 py-2 rounded hover:bg-blue-50 transition">
+                                    My Courses
+                                </a>
+                                <a href="/teacher/students" class="block px-4 py-2 rounded hover:bg-blue-50 transition">
+                                    Students
+                                </a>
+                                <a href="/teacher/create" class="block px-4 py-2 rounded hover:bg-blue-50 transition">
+                                    Create Course
+                                </a>
+                            </>
+                        ) : userType === 'admin' ? (
+                            <>
+                                <a href="/admin/overview" class="block px-4 py-2 rounded hover:bg-blue-50 transition">
+                                    Overview
+                                </a>
+                                <a href="/admin/users" class="block px-4 py-2 rounded hover:bg-blue-50 transition">
+                                    Users
+                                </a>
+                                <a href="/admin/moderation" class="block px-4 py-2 rounded hover:bg-blue-50 transition">
+                                    Moderation
+                                </a>
+                                <a href="/admin/ai-config" class="block px-4 py-2 rounded hover:bg-blue-50 transition">
+                                    AI Configuration
+                                </a>
+                            </>
+                        ) : null
+                    }
+                </nav>
+            </aside>
+
+            <!-- Main content -->
+            <main class="flex-1 p-8">
+                <slot />
+            </main>
+        </div>
+    </div>
+</BaseLayout>

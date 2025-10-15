@@ -55,3 +55,30 @@ export function cacheHeaders(maxAgeDays = 365, cacheTags?: string[]): Record<str
 }
 
 export const uploadDisabled = import.meta.env.PUBLIC_DISABLE_UPLOADS?.toLowerCase() === 'true';
+
+export function noop() {
+  return undefined;
+}
+
+/**
+ * Debounce function
+ * Delays function execution until after wait milliseconds have elapsed since last call
+ */
+export function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+
+  return function executedFunction(...args: Parameters<T>) {
+    const later = () => {
+      timeout = null;
+      func(...args);
+    };
+
+    if (timeout !== null) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(later, wait);
+  };
+}

@@ -1,0 +1,197 @@
+---
+/**
+ * Learning Path Overview Page
+ * Displays all available levels and user progress
+ */
+import LearningLayout from '@/layouts/LearningLayout.astro';
+import { supabase } from '@/lib/supabase/client';
+
+// Get all levels (in a real app, check auth and load user-specific data)
+const { data: levels } = await supabase.from('levels').select('*').order('level_number', { ascending: true });
+
+const levelColors = [
+    { bg: 'bg-green-500', border: 'border-green-600', text: 'text-green-700', light: 'bg-green-50' },
+    { bg: 'bg-blue-500', border: 'border-blue-600', text: 'text-blue-700', light: 'bg-blue-50' },
+    { bg: 'bg-purple-500', border: 'border-purple-600', text: 'text-purple-700', light: 'bg-purple-50' },
+    { bg: 'bg-orange-500', border: 'border-orange-600', text: 'text-orange-700', light: 'bg-orange-50' },
+    { bg: 'bg-red-500', border: 'border-red-600', text: 'text-red-700', light: 'bg-red-50' }
+];
+---
+
+<LearningLayout title="Learning Path | GameCode Lab">
+    <div class="max-w-6xl mx-auto">
+        <!-- Page Header -->
+        <div class="mb-12 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Your Learning Journey
+            </h1>
+            <p class="text-xl text-gray-600">Master web development step by step</p>
+        </div>
+
+        <!-- Progress Overview -->
+        <div class="grid md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600 mb-1">Total Progress</p>
+                        <p class="text-3xl font-bold text-gray-900">0%</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                            ></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600 mb-1">Lessons Completed</p>
+                        <p class="text-3xl font-bold text-gray-900">0 / 60</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600 mb-1">Current Streak</p>
+                        <p class="text-3xl font-bold text-gray-900">0 days</p>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"
+                            ></path>
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Levels -->
+        <div class="space-y-8">
+            {
+                levels?.map((level, index) => {
+                    const color = levelColors[index % levelColors.length];
+                    const isLocked = index > 0; // Mock: only first level unlocked
+
+                    return (
+                        <div class={`relative bg-white rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl ${isLocked ? 'opacity-60' : ''}`}>
+                            <div class={`absolute top-0 left-0 w-2 h-full ${color.bg}`} />
+
+                            <div class="p-8">
+                                <div class="flex items-start gap-6">
+                                    {/* Level Icon */}
+                                    <div
+                                        class={`flex-shrink-0 w-20 h-20 ${color.bg} rounded-2xl flex items-center justify-center text-4xl shadow-lg transform transition-transform hover:scale-110`}
+                                    >
+                                        {level.badge_icon || '📚'}
+                                    </div>
+
+                                    {/* Level Info */}
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-3 mb-2">
+                                            <h2 class="text-2xl font-bold text-gray-900">{level.title}</h2>
+                                            {isLocked && (
+                                                <span class="px-3 py-1 bg-gray-200 text-gray-600 text-sm font-semibold rounded-full flex items-center gap-1">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                                                        />
+                                                    </svg>
+                                                    Locked
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <p class="text-gray-600 mb-4">{level.description}</p>
+
+                                        {/* Progress Bar */}
+                                        <div class="mb-4">
+                                            <div class="flex items-center justify-between text-sm mb-2">
+                                                <span class="text-gray-600">Progress</span>
+                                                <span class="font-semibold text-gray-900">0 / 12 lessons</span>
+                                            </div>
+                                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                                <div class={`h-full ${color.bg} transition-all duration-300`} style="width: 0%" />
+                                            </div>
+                                        </div>
+
+                                        {/* Action Button */}
+                                        {!isLocked ? (
+                                            <a
+                                                href={`/learn/${level.level_number}`}
+                                                class={`inline-flex items-center px-6 py-3 ${color.bg} hover:opacity-90 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-md`}
+                                            >
+                                                <span>Start Learning</span>
+                                                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                                </svg>
+                                            </a>
+                                        ) : (
+                                            <div
+                                                class={`inline-flex items-center px-6 py-3 bg-gray-300 text-gray-600 font-semibold rounded-lg cursor-not-allowed`}
+                                            >
+                                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                                                    />
+                                                </svg>
+                                                <span>Complete Level {index} first</span>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* XP Badge */}
+                                    <div class={`flex-shrink-0 px-4 py-2 ${color.light} ${color.text} rounded-lg text-center`}>
+                                        <p class="text-sm font-semibold">XP Required</p>
+                                        <p class="text-2xl font-bold">{level.xp_required}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })
+            }
+        </div>
+
+        {/* AI Tutor Teaser */}
+        <div class="mt-12 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl shadow-xl p-8 text-white">
+            <div class="flex items-center gap-6">
+                <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-4xl">🤖</div>
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold mb-2">Meet CodeMentor DS</h3>
+                    <p class="text-blue-100">
+                        Your AI-powered learning assistant is ready to help you master web development with personalized hints, explanations, and feedback!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</LearningLayout>

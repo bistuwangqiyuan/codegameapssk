@@ -1,0 +1,134 @@
+---
+/**
+ * Dynamic Level Page
+ * Displays all lessons in a specific level
+ */
+import LearningLayout from '@/layouts/LearningLayout.astro';
+import LessonCard from '@/components/astro/LessonCard.astro';
+import CourseProgress from '@/components/astro/CourseProgress.astro';
+import { supabase } from '@/lib/supabase/client';
+
+const { level } = Astro.params;
+
+// Get level data
+const { data: levelData } = await supabase
+    .from('levels')
+    .select('*')
+    .eq('level_number', parseInt(level || '1'))
+    .single();
+
+// Get lessons for this level
+const { data: lessons } = await supabase
+    .from('lessons')
+    .select('*')
+    .eq('level_id', levelData?.id || '')
+    .eq('is_published', true)
+    .order('sequence_order', { ascending: true });
+
+if (!levelData) {
+    return Astro.redirect('/learn');
+}
+
+const levelColors: Record<number, { bg: string; gradient: string; text: string }> = {
+    1: { bg: 'bg-green-500', gradient: 'from-green-500 to-emerald-600', text: 'text-green-700' },
+    2: { bg: 'bg-blue-500', gradient: 'from-blue-500 to-cyan-600', text: 'text-blue-700' },
+    3: { bg: 'bg-purple-500', gradient: 'from-purple-500 to-pink-600', text: 'text-purple-700' },
+    4: { bg: 'bg-orange-500', gradient: 'from-orange-500 to-red-600', text: 'text-orange-700' },
+    5: { bg: 'bg-red-500', gradient: 'from-red-500 to-pink-600', text: 'text-red-700' }
+};
+
+const color = levelColors[levelData.level_number] || levelColors[1];
+---
+
+<LearningLayout title={`${levelData.title} | GameCode Lab`}>
+    <!-- Level Header -->
+    <div class={`bg-gradient-to-r ${color.gradient} text-white rounded-2xl shadow-xl p-8 mb-8`}>
+        <div class="flex items-center gap-6">
+            <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-5xl">
+                {levelData.badge_icon || '📚'}
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center gap-3 mb-2">
+                    <h1 class="text-4xl font-bold">Level {levelData.level_number}: {levelData.title}</h1>
+                </div>
+                <p class="text-xl text-white/90">{levelData.description}</p>
+            </div>
+            <div class="text-right">
+                <p class="text-sm text-white/80 mb-1">XP Required</p>
+                <p class="text-3xl font-bold">{levelData.xp_required}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Main Content: Lessons -->
+        <div class="lg:col-span-2">
+            <div class="mb-6 flex items-center justify-between">
+                <h2 class="text-2xl font-bold text-gray-900">Lessons</h2>
+                <span class="text-sm text-gray-600">{lessons?.length || 0} lessons in this level</span>
+            </div>
+
+            <div class="space-y-4">
+                {lessons?.map((lesson, index) => <LessonCard lesson={lesson} index={index} isLocked={index > 0} levelNumber={levelData.level_number} />)}
+            </div>
+
+            {
+                (!lessons || lessons.length === 0) && (
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 text-center">
+                        <svg class="w-12 h-12 text-yellow-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p class="text-lg font-semibold text-yellow-800 mb-1">No lessons yet!</p>
+                        <p class="text-yellow-600">Content for this level is coming soon. Check back later!</p>
+                    </div>
+                )
+            }
+        </div>
+
+        <!-- Sidebar: Progress & Info -->
+        <div class="lg:col-span-1">
+            <CourseProgress levelId={levelData.id} levelNumber={levelData.level_number} />
+
+            <!-- Quick Tips -->
+            <div class="mt-6 bg-white rounded-xl shadow-md p-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                        ></path>
+                    </svg>
+                    Learning Tips
+                </h3>
+                <ul class="space-y-3 text-sm text-gray-600">
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Take your time with each lesson</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Practice with the code sandbox</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Ask CodeMentor DS for help</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Complete challenges to earn XP</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</LearningLayout>

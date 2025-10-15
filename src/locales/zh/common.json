@@ -1,0 +1,32 @@
+{
+  "site": {
+    "title": "GameCode Lab - 游戏化编程教育平台",
+    "description": "游戏化 HTML5 编程教育平台"
+  },
+  "nav": {
+    "home": "首页",
+    "learn": "学习",
+    "community": "社区",
+    "leaderboard": "排行榜",
+    "rewards": "奖励商店",
+    "profile": "个人资料",
+    "login": "登录",
+    "signup": "注册",
+    "logout": "退出"
+  },
+  "common": {
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "edit": "编辑",
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功"
+  },
+  "trial": {
+    "banner": "您正在使用 {{days}} 天免费试用。剩余 {{daysLeft}} 天。",
+    "expired": "您的试用期已结束。请注册以继续学习！",
+    "register": "创建账号"
+  }
+}
+
