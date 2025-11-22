@@ -3,7 +3,7 @@
  * Manages iframe creation, destruction, and sandboxed code execution
  */
 
-import { sandboxCSP } from './csp';
+import { generateCSPString } from './csp';
 
 export interface IframeMessage {
   type: 'execute' | 'result' | 'error' | 'console';
@@ -56,7 +56,7 @@ export class IframeManager {
       <html>
         <head>
           <meta charset="UTF-8">
-          <meta http-equiv="Content-Security-Policy" content="${sandboxCSP}">
+          <meta http-equiv="Content-Security-Policy" content="${generateCSPString()}">
           <style>
             body {
               margin: 0;
