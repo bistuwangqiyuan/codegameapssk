@@ -3,11 +3,24 @@ import netlify from '@astrojs/netlify';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import astroI18next from 'astro-i18next';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://astro.build/config
 export default defineConfig({
     vite: {
-        plugins: [tailwindcss()]
+        plugins: [tailwindcss()],
+        resolve: {
+            alias: {
+                '@': path.resolve(__dirname, './src'),
+                '@components': path.resolve(__dirname, './src/components'),
+                '@lib': path.resolve(__dirname, './src/lib'),
+                '@stores': path.resolve(__dirname, './src/stores'),
+                '@types': path.resolve(__dirname, './src/types')
+            }
+        }
     },
     integrations: [
         react(),

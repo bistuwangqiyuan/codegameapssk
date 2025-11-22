@@ -6,7 +6,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useEditorStore } from '@/stores/editorStore';
 import { IframeManager } from '@/lib/sandbox/iframe-manager';
-import { debounce } from '@/lib/utils';
+import { debounce } from '@/utils';
 
 interface ConsoleMessage {
   id: string;
